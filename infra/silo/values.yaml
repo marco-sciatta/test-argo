@@ -4,7 +4,7 @@ common:
   stack: silo
 apps:
   repo: https://github.com/marco-sciatta/test-argo.git
-  path: stacks/silo/bootstrap/
+  path: argo/stacks/silo/bootstrap/
   targetRevision: HEAD
 infra:
   values: 

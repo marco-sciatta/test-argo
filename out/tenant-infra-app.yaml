@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/marco-sciatta/mga-platfom.git
+    repoURL: https://github.com/marco-sciatta/test-argo.git
     targetRevision: HEAD
     path: stacks/silo/bootstrap/
     helm:

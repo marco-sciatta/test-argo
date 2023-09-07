@@ -1,0 +1,55 @@
+---
+# Source: templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tenantone
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    argocd.argoproj.io/managed-by: gitops
+---
+# Source: templates/demo-appset.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pool-stack
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/marco-sciatta/test-argo.git
+      revision: HEAD
+      directories:
+      - path: "argo/stacks/silo/apps/*"
+  template:
+    metadata:
+      name: "tenantone-app-{{path.basename}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/marco-sciatta/test-argo.git
+        targetRevision: HEAD
+        path: "argo/stacks/silo/apps/{{path.basename}}"
+        helm:
+          # Release name override (defaults to application name)
+          releaseName: "{{path.basename}}"
+          valueFiles:
+          - "values.yaml"
+          - "../../../../envs/dev/silo/{{path.basename}}/values.yaml"
+          values: |
+            tenant: tenantone
+            stack: silo
+            project: default
+            env: 
+      destination:
+        # Default base cluster
+        name: in-cluster
+        namespace: tenantone
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=false
+          - ApplyOutOfSyncOnly=true
