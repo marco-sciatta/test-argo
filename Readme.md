@@ -8,7 +8,7 @@
 `/infra/silo`  There is a helm chart deployed by terraform with values populated by terraform execution.
 The one you see in gitlab pipeline
 
-`/argo`  This is the repository that has gitops repo
+`/argo`  This comes from the argocd gitops repository
 
 `/argo/stacks/silo/bootstrap` Contains helm chart referenced by the application deployed by terraform . 
 It contains the base namespace definition and another application set that point to apps directory
@@ -16,6 +16,10 @@ It contains the base namespace definition and another application set that point
 `/argo/stacks/silo/apps` The list of apps deployed for the specific stack
 
 `/argo/envs` Contains the values files for a specific environments for each microservice
+
+
+
+
 ## Usage
 
 ### Debug the charts the charts
