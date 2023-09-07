@@ -15,8 +15,7 @@ It contains the base namespace definition and another application set that point
 
 `/argo/stacks/silo/apps` The list of apps deployed for the specific stack
 
-
-
+`/argo/envs` Contains the values files for a specific environments for each microservice
 ## Usage
 
 ### Debug the charts the charts
