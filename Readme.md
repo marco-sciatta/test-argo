@@ -32,5 +32,5 @@ Will generate files  in `out` directory
 ### Deploy on argocd 
 
 ```
-
+helm template --set common.tenant=tenant1 --set common.stack=silo  infra/silo  | k apply -f -
 ```
