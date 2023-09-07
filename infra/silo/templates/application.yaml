@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ required "A valid .Values.common.tenant entry required!" .Values.common.tenant }}-{{ required "A valid .Values.common.stack entry required!" .Values.common.stack }}-stack
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{.Values.project }}
+  source:
+    repoURL: {{.Values.apps.repo}}
+    targetRevision: {{.Values.apps.targetRevision }}
+    path: stacks/{{ .Values.common.stack }}/bootstrap/
+    helm:
+      # valueFiles:
+      #   - ../tenants/{{.Values.common.tenant}}/{{.Values.common.tenant}}.values.yaml
+      values: |
+        tenant: {{.Values.common.tenant}}
+        stack: {{.Values.common.stack}}
+        project: {{.Values.project}}
+        services: {{.Values.services}}
+{{ toYaml .Values.infra.values | indent 8}}
+      
+  destination:
+    server: {{.Values.server.destination}}
+    namespace: {{.Values.common.tenant}}
+  #syncPolicy: {}
+      
+
+

@@ -1,0 +1,15 @@
+project: default
+common:
+  tenant: tenantname
+  stack: silo
+apps:
+  repo: https://github.com/marco-sciatta/test-argo.git
+  path: stacks/silo/bootstrap/
+  targetRevision: HEAD
+infra:
+  values: 
+    test: value
+    prova: val
+server: 
+  destination: https://kubernetes.default.svc
+services: null
