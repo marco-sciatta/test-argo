@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: {{.Values.apps.repo}}
     targetRevision: {{.Values.apps.targetRevision }}
-    path: stacks/{{ .Values.common.stack }}/bootstrap/
+    path: argo/stacks/{{ .Values.common.stack }}/bootstrap/
     helm:
       ignoreMissingValueFiles: true
       valueFiles:
