@@ -1,0 +1,4 @@
+tenant: tenant
+stack: silo
+project: default
+env: default

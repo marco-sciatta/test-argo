@@ -1,0 +1,16 @@
+services: 
+    b2fe: 
+      name: "b2fe"
+      enable-atlas: true
+      use-irsa: true
+      silo: true
+    orchestrator: 
+      name: "orchestrator"
+      enable-atlas: true
+      use-irsa: true
+      silo: false
+    payment: 
+      name: "payment"
+      enable-atlas: true
+      use-irsa: true
+      silo: true      

@@ -9,7 +9,6 @@ apps:
 infra:
   values: 
     test: value
-    prova: val
 server: 
   destination: https://kubernetes.default.svc
 services: null

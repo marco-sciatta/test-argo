@@ -2,3 +2,4 @@ tenant: tenantone
 stack: silo
 project: default
 environment: dev
+memorylimit: 500Mi
