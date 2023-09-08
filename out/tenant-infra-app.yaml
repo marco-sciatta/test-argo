@@ -1,0 +1,40 @@
+---
+# Source: templates/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tenantname-silo-stack
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/marco-sciatta/test-argo.git
+    targetRevision: HEAD
+    path: stacks/silo/bootstrap/
+    helm:
+      ignoreMissingValueFiles: true
+      valueFiles:
+         - ../../../tenants/tenantname/tenantname.values.yaml
+      values: |
+        tenant: tenantname
+        stack: silo
+        project: default
+        services:
+          - name: b2fe
+            enable-atlas: true
+            name: b2fe
+            silo: true
+            use-irsa: true
+          - name: payment
+            enable-atlas: true
+            name: payment
+            silo: true
+            use-irsa: true
+        test: value
+      
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tenantname
+  #syncPolicy: {}

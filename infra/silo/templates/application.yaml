@@ -10,15 +10,24 @@ spec:
   source:
     repoURL: {{.Values.apps.repo}}
     targetRevision: {{.Values.apps.targetRevision }}
-    path: argo/stacks/{{ .Values.common.stack }}/bootstrap/
+    path: stacks/{{ .Values.common.stack }}/bootstrap/
     helm:
-      # valueFiles:
-      #   - ../tenants/{{.Values.common.tenant}}/{{.Values.common.tenant}}.values.yaml
+      ignoreMissingValueFiles: true
+      valueFiles:
+         - ../../../tenants/{{.Values.common.tenant}}/{{.Values.common.tenant}}.values.yaml
       values: |
         tenant: {{.Values.common.tenant}}
         stack: {{.Values.common.stack}}
         project: {{.Values.project}}
-        services: {{.Values.services}}
+        services: 
+        {{- range $k, $v := .Values.services }}
+        {{- if $v.silo }}
+          - name: {{ $k }}
+            {{- range $key, $value := $v}}
+            {{$key}}: {{ $value }}
+            {{- end}}
+        {{- end}}
+        {{- end}}
 {{ toYaml .Values.infra.values | indent 8}}
       
   destination:

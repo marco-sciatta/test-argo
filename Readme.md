@@ -3,10 +3,23 @@
 
 ## Directories
 
+### T. Stack Infra repo
+
 `/infra` This comes from the tenant-stack pipeline repository
 
 `/infra/silo`  There is a helm chart deployed by terraform with values populated by terraform execution.
-The one you see in gitlab pipeline
+The one you see in gitlab pipeline.
+Variables are passed by terraform.
+
+`/infra/silo/service-definitions.yaml` This file contains the configuration used by terraform to create a base infrastrucutre
+for each microservices.
+
+In this case this is also passed as values to helm chart in infra/silo
+*see the simulate.sh* and the result in **/out/tenant-infra-app.yaml**
+
+----
+
+### Gitops Repo
 
 `/argo`  This comes from the argocd gitops repository
 
@@ -17,8 +30,15 @@ It contains the base namespace definition and another application set that point
 
 `/argo/envs` Contains the values files for a specific environments for each microservice
 
+`/tenants` This file is optionals. Ideally a pipeline create this dir only  the first time and can be used to overwrite some values for a tenant. This file is included (without fail if does not exists) in all chart deployed with the tenant. The values into this file overwrite everything else
 
 
+## Updates
+- A service definition file is passed (filtered by stack or other criterias) as helm values. 
+- Services values is used in a list generator to deploy only the services needs for that stack 
+- To onboard a new microservices (and deploy the infrastructure) the steps are: 
+  - Create a gitops folder in gitops repo (that is not deployed becouse git generator does not exists anymore)
+  - Update the service-definition-file
 
 ## Usage
 
@@ -38,3 +58,5 @@ Will generate files  in `out` directory
 ```
 helm template --set common.tenant=tenant1 --set common.stack=silo  infra/silo  | k apply -f -
 ```
+
+
